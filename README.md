@@ -14,7 +14,6 @@ This project was built using modern technologies, including **Next.js**, **TypeS
 6. [Running Locally](#running-locally)
 7. [Deployment](#deployment)
 8. [Contributing](#contributing)
-9. [License](#license)
 
 
 ## Tech Stack
