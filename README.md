@@ -6,18 +6,18 @@ This project was built using modern technologies, including **Next.js**, **TypeS
 
 ## Table of Contents
 
-1. [Tech Stack](https://github.com/sholajegede/genith-ai#text-stack)
-2. [Features](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-3. [Getting Started](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-4. [Pinata Integration](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-5. [Environment Variables](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-6. [Running Locally](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-7. [Deployment](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-8. [Contributing](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
-9. [License](https://www.notion.so/11d0e9cde17880c2a2b7d6f08793a46f?pvs=21)
+1. [Tech Stack](#tech-stack)
+2. [Features](#features)
+3. [Getting Started](#getting-started)
+4. [Pinata Integration](#pinata-integration)
+5. [Environment Variables](#environment-variables)
+6. [Running Locally](#running-locally)
+7. [Deployment](#deployment)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 
-## Tech Stack
+## Tech Stack {#tech-stack}
 
 The following technologies were used to build **Genith AI**:
 
@@ -30,7 +30,8 @@ The following technologies were used to build **Genith AI**:
 - [**Vercel**](https://vercel.com/): Hosting platform for seamless deployment.
 - [**Tailwind CSS**](https://tailwindcss.com/): Utility-first CSS framework for building modern UIs.
 
-## Features
+
+## Features {#features}
 
 - **AI-Driven Content Generation**: Users can generate unique images and videos based on text prompts using **Fal-ai**.
 - **Pinata for Storage**: Seamless and secure decentralized storage of all media.
