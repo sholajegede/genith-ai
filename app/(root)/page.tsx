@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Clapperboard, Image } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Clapperboard, Image, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Announcement } from "@/components/announcement";
 import { FadeIn } from "@/components/fade-in";
@@ -45,6 +45,7 @@ interface FalAiResult {
 
 export default function HomePage() {
   const { toast } = useToast();
+  const contentRef = useRef<HTMLDivElement>(null);
   const save = useMutation(api.contents.saveContent);
 
   const [prompt, setPrompt] = useState("");
@@ -111,6 +112,12 @@ export default function HomePage() {
     }
   };
 
+  const scrollToContent = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleGenerate = async () => {
     if (generationCount >= 3) {
       toast({
@@ -170,6 +177,8 @@ export default function HomePage() {
           title: "Success",
           description: "Image generated successfully!",
         });
+
+        scrollToContent();
       } else {
         //console.log("No image URL found in the result.");
       }
@@ -251,6 +260,8 @@ export default function HomePage() {
           title: "Success",
           description: "Video generated successfully!",
         });
+
+        scrollToContent();
       } else {
         //console.log("No video URL found in the result.");
       }
@@ -311,8 +322,17 @@ export default function HomePage() {
                         onClick={handleGenerate}
                         disabled={loading || generationCount >= 3}
                       >
-                        <Image className="mr-2" />
-                        {loading ? "Generating..." : "Generate image"}
+                        {loading ? (
+                            <span className="inline-flex">
+                              <Loader className="mr-1 h-5 w-5 animate-spin" />
+                              Generating...
+                            </span>
+                          ) : (
+                            <span className="inline-flex">
+                              <Image className="mr-1 h-5 w-5" />
+                              Generate image
+                            </span>
+                          )}
                       </Button>
                     </div>
                   </div>
@@ -334,8 +354,17 @@ export default function HomePage() {
                           onClick={handleGenerateVideo}
                           disabled={loading || generationCount >= 1}
                         >
-                          <Clapperboard className="mr-2" />
-                          {loading ? "Generating..." : "Generate video"}
+                          {loading ? (
+                            <span className="inline-flex">
+                              <Loader className="mr-1 h-5 w-5 animate-spin" />
+                              Generating...
+                            </span>
+                          ) : (
+                            <span className="inline-flex">
+                              <Clapperboard className="mr-1 h-5 w-5" />
+                              Generate video
+                            </span>
+                          )}
                         </Button>
                       </div>
                     </div>
@@ -364,7 +393,7 @@ export default function HomePage() {
 
         <FadeIn>
           <section className="w-full mb-10 space-y-4 md:block">
-            <div className="mx-auto max-w-7xl rounded-[24px] border border-black/5 p-2 shadow-sm md:rounded-[44px]">
+            <div ref={contentRef} className="mx-auto max-w-7xl rounded-[24px] border border-black/5 p-2 shadow-sm md:rounded-[44px]">
               <ContentGrid />
             </div>
           </section>

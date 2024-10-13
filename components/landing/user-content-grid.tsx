@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowBigUp, IceCream } from "lucide-react";
+import { ArrowBigUp, IceCream, Maximize, Minimize } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   MinimalCard,
@@ -33,12 +33,12 @@ export function UserContentGrid() {
   const { toast } = useToast();
   const { user } = useUser();
   const userId = user?.id;
-
   const [selectedCreator, setSelectedCreator] = useState("");
   const [selectedPrompt, setSelectedPrompt] = useState("");
   const [selectedContent, setSelectedContent] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [expandContent, setExpandContent] = useState(false);
+  const [showFullPrompt, setShowFullPrompt] = useState(false);
   const [selectedContentId, setSelectedContentId] = useState<Id<"contents"> | null>(null);
 
   const profile = useQuery(api.users.getUserById, {
@@ -92,6 +92,10 @@ export function UserContentGrid() {
     return new Date(b._creationTime).getTime() - new Date(a._creationTime).getTime();
   }) : [];
 
+  const handleTogglePrompt = () => {
+    setShowFullPrompt(!showFullPrompt);
+  };
+
   return (
     <>
       <Dialog open={expandContent} onOpenChange={setExpandContent}>
@@ -108,12 +112,27 @@ export function UserContentGrid() {
             <DialogDescription className="text-wrap mt-6">
               <span className="font-medium">Prompt:</span>
               <blockquote className="mt-2 border-l-2 pl-6 italic">
-                {selectedPrompt}
+                {showFullPrompt ? selectedPrompt : `${selectedPrompt.slice(0, 150)}${selectedPrompt.length > 150 ? '...' : ''}`}
               </blockquote>
+              {selectedPrompt.length > 150 && (
+                <button className="text-primary mt-4" type="button" onClick={handleTogglePrompt}>
+                  {showFullPrompt ? (
+                    <span className="inline-flex">
+                      <Minimize className="mr-1 mt-1 h-3.5 w-4" />
+                      Show less
+                    </span>
+                  ) : (
+                    <span className="inline-flex">
+                      <Maximize className="mr-1 mt-1 h-3.5 w-4" />
+                      Show more
+                    </span>
+                  )}
+                </button>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="">
-                      {selectedType === "image" ? (
+            {selectedType === "image" ? (
               <Image
                 src={selectedContent || ""}
                 alt=""
@@ -206,7 +225,9 @@ export function UserContentGrid() {
                       {content.creator || null}
                     </MinimalCardTitle>
                     <MinimalCardDescription className="text-neutral-400">
-                      {content.prompt}
+                      {content.prompt && content.prompt.length > 150 
+                        ? `${content.prompt.slice(0, 150)}...` 
+                        : content.prompt || ''}
                     </MinimalCardDescription>
 
                     <MinimalCardDescription />

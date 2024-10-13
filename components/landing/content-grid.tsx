@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowBigUp, IceCream } from "lucide-react";
+import { ArrowBigUp, IceCream, Maximize, Minimize } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   MinimalCard,
@@ -35,6 +35,7 @@ export function ContentGrid() {
   const [selectedContent, setSelectedContent] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [expandContent, setExpandContent] = useState(false);
+  const [showFullPrompt, setShowFullPrompt] = useState(false);
   const [selectedContentId, setSelectedContentId] = useState<Id<"contents"> | null>(null);
 
   const contents = useQuery(api.contents.getAllContents);
@@ -81,6 +82,10 @@ export function ContentGrid() {
     return new Date(b._creationTime).getTime() - new Date(a._creationTime).getTime();
   }) : [];
 
+  const handleTogglePrompt = () => {
+    setShowFullPrompt(!showFullPrompt);
+  };
+
   return (
     <>
       <Dialog open={expandContent} onOpenChange={setExpandContent}>
@@ -97,8 +102,23 @@ export function ContentGrid() {
             <DialogDescription className="text-wrap mt-6">
               <span className="font-medium">Prompt:</span>
               <blockquote className="mt-2 border-l-2 pl-6 italic">
-                {selectedPrompt}
+                {showFullPrompt ? selectedPrompt : `${selectedPrompt.slice(0, 150)}${selectedPrompt.length > 150 ? '...' : ''}`}
               </blockquote>
+              {selectedPrompt.length > 150 && (
+                <button className="text-primary mt-4" type="button" onClick={handleTogglePrompt}>
+                  {showFullPrompt ? (
+                    <span className="inline-flex">
+                      <Minimize className="mr-1 mt-1 h-3.5 w-4" />
+                      Show less
+                    </span>
+                  ) : (
+                    <span className="inline-flex">
+                      <Maximize className="mr-1 mt-1 h-3.5 w-4" />
+                      Show more
+                    </span>
+                  )}
+                </button>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="">
@@ -135,7 +155,7 @@ export function ContentGrid() {
           className="absolute left-4 top-4 rounded-[14px] border border-black/10 text-base text-neutral-800 md:left-6"
         >
           <IceCream className="fill-[#D2F583] stroke-1 text-neutral-800" />{" "}
-          Explore Generated Contents
+          Explore Generated Contents [{sortedContents.length}]
         </Badge>
         <div className="flex flex-col justify-center space-y-4 rounded-[34px] p-3 pt-12">
           <div className="relative grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 w-full">
@@ -195,7 +215,9 @@ export function ContentGrid() {
                       {content.creator || null}
                     </MinimalCardTitle>
                     <MinimalCardDescription className="text-neutral-400">
-                      {content.prompt}
+                      {content.prompt && content.prompt.length > 150 
+                        ? `${content.prompt.slice(0, 150)}...` 
+                        : content.prompt || ''}
                     </MinimalCardDescription>
 
                     <MinimalCardDescription />

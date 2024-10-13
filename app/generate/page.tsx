@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Clapperboard, Image } from "lucide-react";
+import { Clapperboard, Image, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/fade-in";
 import { PageHeader } from "@/components/page-header";
@@ -335,8 +335,17 @@ export default function Generate() {
                         onClick={handleGenerate}
                         disabled={loading}
                       >
-                        <Image className="mr-2" />
-                        {loading ? "Generating..." : "Generate image"}
+                        {loading ? (
+                          <span className="inline-flex">
+                            <Loader className="mr-1 h-5 w-5 animate-spin" />
+                            Generating...
+                          </span>
+                        ) : (
+                          <span className="inline-flex">
+                            <Image className="mr-1 h-5 w-5" />
+                            Generate image
+                          </span>
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -358,8 +367,17 @@ export default function Generate() {
                           onClick={handleGenerateVideo}
                           disabled={loading}
                         >
-                          <Clapperboard className="mr-2" />
-                          {loading ? "Generating..." : "Generate video"}
+                          {loading ? (
+                            <span className="inline-flex">
+                              <Loader className="mr-1 h-5 w-5 animate-spin" />
+                              Generating...
+                            </span>
+                          ) : (
+                            <span className="inline-flex">
+                              <Clapperboard className="mr-1 h-5 w-5" />
+                              Generate video
+                            </span>
+                          )}
                         </Button>
                       </div>
                     </div>
