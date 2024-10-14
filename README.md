@@ -14,6 +14,7 @@ This project was built using modern technologies, including **Next.js**, **TypeS
 6. [Running Locally](#running-locally)
 7. [Deployment](#deployment)
 8. [Contributing](#contributing)
+9. [License](#license)
 
 
 ## Tech Stack
@@ -182,3 +183,8 @@ Contributions are welcome! Here’s how you can contribute:
 3. Make your changes and commit them (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature/your-feature-name`).
 5. Open a pull request.
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
